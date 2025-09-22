@@ -1,1 +1,91 @@
+#include <iostream>
+using namespace std;
 
+
+int main(){
+    int W0, I0, T; 
+    //W0: 다이어트 전 체중, I0: 다이어트 전 에너지섭취량, T: 기초대사량 역치
+    int D, I, A;
+    //D: 다이어트 기간, I: 다이어트 전 에너지섭취량, A: 다이어트 중 활동대사량
+
+    cin >> W0 >> I0 >> T;
+    cin >> D >> I >> A;
+
+    //기초대사량 고려 x
+    int weight1 = W0;
+    bool danger1 = false;
+
+    for(int day = 1; day<= D;day++){
+        int E=I0+A;  //E: 에너지소비량=기초대사량+ 활동대사량
+
+        //체중변화
+        int weight_change=I-E;
+        weight1=weight1+weight_change;
+
+        //죽는 지 확인
+        if(weight1<=0){
+            danger1=true;
+            break;
+        }
+    }
+
+    if(danger1){
+            cout << "Danger Diet" << endl;
+        }else{
+            cout << weight1 << " " << I0 << endl;
+        }
+
+    //기초대사량 고려
+    int weight2 = W0;
+    int M = I0;  //M: 기초대사량
+    bool danger2 = false;
+
+    for(int day=1;day<=D;day++){
+        int E=M+A;
+
+        //체중변화
+        int weight_change=I-E;
+        weight2=weight2+weight_change;
+
+        //죽는 지 확인
+        if(weight2<=0){
+            danger2=true;
+            break;
+        }
+
+        //기초대사량 변화 계산
+        int E_change=I-E;  //E_change: 에너지 섭취량-에너지 소비량
+        int abs_E_change=E_change;
+        if(abs_E_change<0){
+            abs_E_change=-abs_E_change; //절댓값 구하기
+        }
+        if(abs_E_change > T){
+            int M_change=E_change/2;
+            M=M+M_change;
+
+            //죽는 지 확인
+            if(M<=0){
+                danger2=true;
+                break;
+            }
+        }
+    }
+    if(danger2){
+        cout << "Danger Diet" << endl;
+    }else{
+        //요요현상 체크
+        int future_energy_intake=I0; //원래 섭취량으로 돌아감
+        int future_E = M+0; //future_E:변화후 에너지 소비량
+
+        string yoyo;
+        if(future_energy_intake>future_E){
+            yoyo="YOYO";
+        }else{
+            yoyo="NO";
+        }
+
+        cout << weight2 << " " << M << " " << yoyo << endl;
+    }
+
+    return 0;
+}
