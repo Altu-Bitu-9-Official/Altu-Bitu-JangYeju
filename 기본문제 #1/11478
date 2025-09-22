@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+int SubString(string str){
+    set<string> s;
+
+    for(int i=0;i<str.length();i++){
+        for(int j=str.length()-i;j>=1;j--){
+            string substr=str.substr(i,j);
+            s.insert(substr);
+        }
+    }
+    return s.size();
+}
+int main(){
+    string str;
+    cin >> str;
+    cout << SubString(str);
+}
