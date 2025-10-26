@@ -3,13 +3,13 @@
 #include <vector>
 using namespace std;
 
-int calculateMinSpeed(int n, const vector<int>& v){
-    int v_min = v[n-1];
+long long calculateMinSpeed(int n, const vector<int>& v){
+    long long v_min = v[n-1];
     for(int i=n-2;i>=0;--i){
         if(v_min < v[i]){
             v_min=v[i];
         }
-        int m = ceil((double)v_min / v[i]);
+        long long m = ceil((double)v_min / v[i]);
         v_min = v[i]*m;
     }
     return v_min;
